@@ -1,0 +1,67 @@
+<main>
+  <section class="background-threads">
+    <div class="container">
+      <a href="#"><span>The World Holidaybook</span></a>
+      <h1>Explore All Countries</h1>
+    </div>
+  </section>
+
+  <section class="background-grid main-content">
+    <div class="container">
+      <div class="row">
+        <div class="row-left">
+          <div class="filter-wrapper">
+            <div class="filter-header">
+              <div class="filter-clear">
+                <div class="label">
+                  @if (this.selectedLetter !== 'ALL') {
+                    {{ displayedCountries.length }}
+                  } @else {
+                    {{ countries.length }}
+                  }
+                  Countries
+                </div>
+                <button (click)="clearFilter()">Clear Filter</button>
+              </div>
+            </div>
+            <div class="filter-search">
+              <app-search
+                [countries]="countries"
+                (handleSelectedCountry)="selectedCountry($event)"></app-search>
+            </div>
+            <div class="filter-box">
+              <div class="filter-box-header">
+                <div class="label">Filter</div>
+              </div>
+              <div class="filter-box-list">
+                @for (letter of alphabet; track letter) {
+                  <div class="filter-box-list-letter">
+                    <app-letter
+                      [letter]="letter"
+                      [selected]="selectedLetter"
+                      (letterClicked)="onSelectLetter($event)"></app-letter>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="countries-wrapper">
+            <div class="countries-list">
+              @for (country of displayedCountries; track country) {
+                <app-country-link [country]="country"></app-country-link>
+              }
+            </div>
+            <div class="countries-paginator">
+              <p-paginator
+                (onPageChange)="onPageChange($event)"
+                [rows]="10"
+                [totalRecords]="countries.length" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

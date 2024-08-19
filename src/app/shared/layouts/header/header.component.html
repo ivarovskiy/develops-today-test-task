@@ -1,0 +1,18 @@
+<header>
+  <div class="header-logo">
+    <img
+      src="/assets/images/world.svg"
+      alt="world logo"
+      class="header-logo-image" />
+
+    <span class="header-logo-title">The world holidaybook</span>
+  </div>
+  <ul class="header-navigation">
+    <li><a href="#" (click)="goHome($event)">Countries</a></li>
+    @if (isButtonVisible) {
+      <li>
+        <app-widget></app-widget>
+      </li>
+    }
+  </ul>
+</header>

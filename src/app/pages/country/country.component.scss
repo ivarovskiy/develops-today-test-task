@@ -1,0 +1,21 @@
+.custom-bg {
+  background-image: url('/assets/images/section-bg.png');
+  background-repeat: no-repeat;
+  background-size: 100% 75%;
+  background-position: bottom;
+}
+
+main {
+  .content {
+    width: 100%;
+    background-color: #fff;
+
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      transparent calc(50% - 1.5px),
+      #000 50%,
+      transparent 0
+    );
+  }
+}

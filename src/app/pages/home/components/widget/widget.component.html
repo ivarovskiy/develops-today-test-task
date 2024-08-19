@@ -1,0 +1,26 @@
+<div class="card flex justify-content-center">
+  <p-button
+    (onClick)="op.toggle($event)"
+    [rounded]="true"
+    [text]="true"
+    severity="secondary"
+    label="Random" />
+  <p-overlayPanel #op>
+    <ul class="holidays-list">
+      @for (holiday of randomCountries; track holiday) {
+        <li class="holidays-list-item">
+          <span class="holidays-list-item-name">
+            {{ holiday.country.name }}
+
+            <span class="holidays-list-item-name-local">
+              {{ holiday.holidays[0].name }}
+            </span>
+          </span>
+          <span class="holidays-list-item-date">
+            {{ holiday.holidays[0].date }}
+          </span>
+        </li>
+      }
+    </ul>
+  </p-overlayPanel>
+</div>

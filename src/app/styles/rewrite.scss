@@ -1,0 +1,60 @@
+.p-tree {
+  border: none;
+  padding: 0;
+}
+
+.p-autocomplete {
+  width: 100%;
+}
+
+.p-inputtext {
+  width: 100%;
+}
+
+.p-inputtext:hover {
+  border-color: #e21a41;
+}
+
+.p-inputtext:enabled:focus {
+  box-shadow: 0 0 0 0.2rem red;
+  border-color: #e21a41;
+}
+
+.custom-icon > .p-button.p-button-icon-only {
+  padding: 0;
+  width: max-content;
+}
+
+.p-calendar {
+  width: 100%;
+}
+
+.custom-input > .p-inputtext {
+  width: 170px;
+}
+
+.p-calendar .p-datepicker {
+  width: 100%;
+}
+
+@media (min-height: 768px) {
+  .custom-input > .p-inputtext {
+    width: 100%;
+  }
+
+  .p-calendar .p-datepicker {
+    width: fit-content;
+  }
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  color: white;
+  background: #e21a41;
+}
+
+.p-button.p-button-secondary.p-button-text,
+.p-button-group.p-button-secondary > .p-button.p-button-text,
+.p-splitbutton.p-button-secondary > .p-button.p-button-text {
+  font-family: 'Archivo Black';
+  color: #e21a41;
+}

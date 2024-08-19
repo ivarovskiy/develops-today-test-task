@@ -1,0 +1,19 @@
+<div class="search-wrapper">
+  <p-autoComplete
+    [(ngModel)]="selectedCountry"
+    [suggestions]="filteredCountries"
+    (completeMethod)="filterCountry($event)"
+    (onSelect)="onCountrySelect()"
+    field="name">
+    <ng-template let-country pTemplate="item">
+      <div class="flex align-items-center gap-2">
+        <img
+          src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+          [class]="'flag flag-' + country.countryCode.toLowerCase()"
+          style="width: 18px"
+          alt="flag" />
+        <div>{{ country.name }}</div>
+      </div>
+    </ng-template>
+  </p-autoComplete>
+</div>
