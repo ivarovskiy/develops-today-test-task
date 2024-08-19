@@ -9,15 +9,8 @@ import { LetterComponent } from '@components/letter/letter.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { CountryLinkComponent } from '@components/country-link/country-link.component';
 import { CountryHolidays } from '@models/countryHolidays.interface';
-import {
-  catchError,
-  forkJoin,
-  map,
-  of,
-  Subscription,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -31,32 +24,23 @@ import {
     CountryLinkComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private countryService = inject(CountryService);
 
-  subscription = new Subscription();
+  private subscription = new Subscription();
 
   countries: Country[] = [];
+  randomSortedCountries: Country[] = [];
   displayedCountries: Country[] = [];
   randomCountries: CountryHolidays[] = [];
-  nextHolidays: NextPublicHoliday[] = [];
-
   alphabet: string[] = [];
   selectedLetter = 'ALL';
+  totalRecords: number = 0;
 
   ngOnInit(): void {
-    this.loadCountries();
-    this.alphabet = this.generateAlphabet();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  loadCountries(): void {
     this.subscription.add(
       this.countryService
         .getCountries()
@@ -71,6 +55,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
+
+    this.alphabet = this.generateAlphabet();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private processCountries(data: Country[]): Country[] {
@@ -92,7 +82,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadRandomCountries() {
-    const selectedCountries = this.countries
+    this.randomSortedCountries = [...this.countries];
+
+    const selectedCountries = this.randomSortedCountries
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
 
@@ -114,11 +106,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  selectedCountry(country: Country) {
+  selectedCountry(country: Country): void {
     this.router.navigate(['/country', country.countryCode]);
   }
 
-  clearFilter() {
+  clearFilter(): void {
     this.selectedLetter = 'ALL';
     this.filterCountriesByLetter('ALL');
   }
@@ -129,23 +121,32 @@ export class HomeComponent implements OnInit, OnDestroy {
       .concat('ALL');
   }
 
-  onSelectLetter(letter: string) {
+  onSelectLetter(letter: string): void {
     this.selectedLetter = letter;
     this.filterCountriesByLetter(letter);
   }
 
   onPageChange(event: any): void {
     const { first, rows } = event;
-    this.displayedCountries = this.countries.slice(first, first + rows);
-    if (this.selectedLetter !== 'ALL') {
-      this.filterCountriesByLetter(this.selectedLetter);
-    }
+    const countriesToDisplay =
+      this.selectedLetter === 'ALL'
+        ? this.countries
+        : this.countries.filter(country =>
+            country.name.startsWith(this.selectedLetter)
+          );
+
+    this.displayedCountries = countriesToDisplay.slice(first, first + rows);
+    this.totalRecords = countriesToDisplay.length;
   }
 
   private filterCountriesByLetter(letter: string): void {
-    this.displayedCountries =
+    this.selectedLetter = letter;
+    const countriesToDisplay =
       letter === 'ALL'
-        ? this.countries.slice(0, 10)
+        ? this.countries
         : this.countries.filter(country => country.name.startsWith(letter));
+
+    this.displayedCountries = countriesToDisplay.slice(0, 10);
+    this.totalRecords = countriesToDisplay.length;
   }
 }
