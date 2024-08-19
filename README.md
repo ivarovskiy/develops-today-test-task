@@ -33,7 +33,5 @@ After successfully installing the packages, enter the serve command in the termi
 ```
 $ ng serve
 ```
-## 📝 I created my own layout and tried to display how I see a beautiful and convenient application, and I hope you like it. Thanks for your attention! 🤝
-## Since the development was, in my opinion, mostly for mobile use, I advise you to try it on it
 
-## [Try it yourself](https://develops-today.web.app/)
+## Firebase hosting - [Try it yourself](https://develops-today.web.app/)
